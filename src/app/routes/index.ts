@@ -1,17 +1,13 @@
 import express from 'express'
-import { ProductRoute } from "../modules/product/product.route"
+import { UserRoutes } from '../modules/user/user.route'
 
 const router = express.Router()
 
 const moduleRoutes = [
     {
-        path: '/products',
-        route: ProductRoute
+        path: '/user',
+        route: UserRoutes
     },
-    // {
-    //     path: '/post',
-    //     route: ProductRoute
-    // },
 ]
 
 
