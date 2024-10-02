@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import { UserServices } from "./user.service";
 import catchAsync from "../utils/catchAsync";
 import sendResponse from "../utils/sendResponse";
+import config from "../../config";
 
 const signUpUser = catchAsync(async (req, res) => {
   const result = await UserServices.signUpUserIntoDB(req.file, req.body);
@@ -13,6 +14,24 @@ const signUpUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+// const signIn = catchAsync(async(req, res)=>{
+//   const {result, token, refreshToken} = await UserServices.signInUser(req.body)
+
+//   res.cookie('refreshToken', refreshToken, {
+//       secure: config.NODE_ENV === 'production',
+//       httpOnly: true
+//   })
+
+
+//   sendResponse(res, {
+//       statusCode: httpStatus.OK,
+//       success: true,
+//       message: 'User logged in successfully',
+//       data: result,
+//       token: token
+//   })
+// })
 
 const getAllUsers = catchAsync(async(req, res)=>{
   const result = await UserServices.getAllUsersFromDB(req.query)
@@ -72,6 +91,7 @@ const deleteUser = catchAsync(async(req, res)=>{
 
 export const UserControllers = {
   signUpUser,
+  // signIn,
   getAllUsers,
   getSingleUser,
   getSingleUserByEmail,

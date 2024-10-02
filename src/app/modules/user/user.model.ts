@@ -1,9 +1,9 @@
 import { Query, Schema, model } from "mongoose";
-import { TUser } from "./user.interface";
+import { TSignUp } from "./user.interface";
 import config from "../../config";
 import bcrypt from 'bcryptjs';
 
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<TSignUp>({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     image: { type: String, required: true},
@@ -36,16 +36,16 @@ userSchema.post('save', function(doc, next) {
 });
 
 
-userSchema.pre<Query<TUser, TUser>>('find', function(next) {
+userSchema.pre<Query<TSignUp, TSignUp>>('find', function(next) {
     this.where({ isDeleted: { $ne: true } });
     next();
 });
 
-userSchema.pre<Query<TUser, TUser>>('findOne', function(next) {
+userSchema.pre<Query<TSignUp, TSignUp>>('findOne', function(next) {
     this.where({ isDeleted: { $ne: true } });
     next();
 })
 
 userSchema.index({ email: 1 }, { unique: true });
 
-export const User = model<TUser>('User', userSchema)
+export const User = model<TSignUp>('User', userSchema)

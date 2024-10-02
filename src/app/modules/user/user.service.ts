@@ -1,25 +1,15 @@
 import mongoose from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
-import { TUser } from "./user.interface";
+import { TSignUp } from "./user.interface";
 import { User } from "./user.model";
 import { sendImageToCloudinary } from "../utils/sendImageToCloudinary";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
+import bcrypt from 'bcryptjs';
+import jwt from "jsonwebtoken";
 import config from "../../config";
-import bcrypt from "bcryptjs"
 
-
-// const signUpUserIntoDB = async ( payload: TUser) => {
-//   const existingUser = await User.findOne({ email: payload.email });
-//     if (existingUser) {
-//         throw new Error('Email already exists');
-//     }
-//   const result = await User.create(payload)
-//   return result
-// };
-
-
-const signUpUserIntoDB = async (file: Express.Multer.File | undefined, payload: TUser) => {
+const signUpUserIntoDB = async (file: Express.Multer.File | undefined, payload: TSignUp) => {
   const session = await mongoose.startSession();
 
   try {
@@ -62,6 +52,48 @@ const signUpUserIntoDB = async (file: Express.Multer.File | undefined, payload: 
 
 
 
+// const signInUser = async (payload: TSignin) => {
+//   const isUserExists = await User.findOne({ email: payload.email }).select('+password');
+  
+//   if (!isUserExists) {
+//       throw new AppError(httpStatus.NOT_FOUND, "This user is not found");
+//   }
+
+//   const isPasswordMatch = await bcrypt.compare(payload.password, isUserExists.password);
+  
+//   if (!isPasswordMatch) {
+//       throw new AppError(httpStatus.UNAUTHORIZED, "Incorrect password");
+//   }
+
+//   const isDeleted = isUserExists?.isDeleted;
+
+//   if (isDeleted) {
+//     throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
+//   }
+
+//   const jwtPayload = {
+//       email: isUserExists.email,
+//       role: isUserExists.role,
+//   };
+
+//   const token = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
+//       expiresIn: config.jwt_access_expires_in,
+//       });
+
+//   const refreshToken = jwt.sign(jwtPayload, config.jwt_refresh_secret as string,
+//           {
+//             expiresIn: config.jwt_refresh_expires_in,
+//           }
+//   );
+
+//   const result = await User.findById(isUserExists._id).select('-password');
+
+//   return {result, token, refreshToken};
+// }
+
+
+
+
 const getAllUsersFromDB = async (query: Record<string, unknown>) => {
   const CarSearchableFields = ['name'];
   const carsQuery = new QueryBuilder(
@@ -88,7 +120,7 @@ const getSingleUserByEmail = async(email: string) =>{
   return result
 }
 
-const updateUserIntoDB = async(id: string, payload: Partial<TUser>)=>{
+const updateUserIntoDB = async(id: string, payload: Partial<TSignUp>)=>{
   const result = await User.findByIdAndUpdate(id, payload, {new: true})
   return result
 }
@@ -100,6 +132,7 @@ const deleteUserIntoDB = async(id: string) =>{
 
 export const UserServices = {
   signUpUserIntoDB,
+  // signInUser,
   getAllUsersFromDB,
   getSingleUser,
   getSingleUserByEmail,

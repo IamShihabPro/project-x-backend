@@ -4,8 +4,8 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import httpStatus from 'http-status';
 import { USER_ROLE } from '../modules/user/user.constant';
-import { User } from '../modules/user/user.model';
 import catchAsync from '../modules/utils/catchAsync';
+import { User } from '../modules/user/user.model';
 
 
 const sliptToken = (authHeader: string | undefined): string | null => {

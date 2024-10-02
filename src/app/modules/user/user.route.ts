@@ -7,14 +7,9 @@ import { auth } from '../../middlewares/auth';
 import { upload } from '../utils/sendImageToCloudinary';
 const router = express.Router();
 
-// router.post('/signup',
-//   validateRequest(UserValidation.createUserValidation),  UserControllers.signUpUser
-// );
-
 
 router.post(
   '/signup',
-  // auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
@@ -23,6 +18,9 @@ router.post(
   validateRequest(UserValidation.createUserValidation),
   UserControllers.signUpUser,
 );
+
+// router.post('/signin', validateRequest(UserValidation.signinValidation), UserControllers.signIn)
+
 
 router.get('/', UserControllers.getAllUsers)
 router.get('/:id', UserControllers.getSingleUser)
