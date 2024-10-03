@@ -1,20 +1,35 @@
-import { Query, Schema, model } from "mongoose";
+import { Query, Schema, Types, model } from "mongoose";
 import { TSignUp } from "./user.interface";
 import config from "../../config";
 import bcrypt from 'bcryptjs';
 
-const userSchema = new Schema<TSignUp>({
+const userSchema = new Schema<TSignUp>(
+  {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    image: { type: String, required: true},
+    image: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
-    password: { type: String },
-    isDeleted: { type: Boolean, default: false},
-},
-{
+    password: { type: String, required: true },
+    
+    followers: [{ type: Types.ObjectId, ref: 'User' }],
+    following: [{ type: Types.ObjectId, ref: 'User' }], 
+    
+    followersCount: { type: Number, default: 0 },
+    followingCount: { type: Number, default: 0 },
+    postsCount: { type: Number, default: 0 }, 
+    
+    isVerified: { type: Boolean, default: false },
+    subscriptionStatus: {
+      type: String,
+      enum: ['subscribed', 'not-subscribed'],
+      default: 'not-subscribed',
+    },
+    isDeleted: { type: Boolean, default: false },
+  },
+  {
     timestamps: true,
-},
-)
+  }
+);
 
 
 userSchema.pre('save', async function (next) {
