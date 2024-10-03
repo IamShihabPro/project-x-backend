@@ -8,7 +8,10 @@ import { auth } from '../../middlewares/auth'
 
 const router = express.Router()
 
-router.post('/tweet',auth(USER_ROLE.user, USER_ROLE.admin), validateRequest(PostValidation.createPostValidation), PostController.createPost)
+router.post('/tweet', auth(USER_ROLE.user, USER_ROLE.admin), validateRequest(PostValidation.createPostValidation), PostController.createPost)
+router.get('/tweet', auth(USER_ROLE.user, USER_ROLE.admin), PostController.getAllPost )
+router.get('/tweet/:id', auth(USER_ROLE.user, USER_ROLE.admin), PostController.getSinglePost )
+
 
 
 export const PostRoutes = router
