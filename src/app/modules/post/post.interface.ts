@@ -10,8 +10,8 @@ export type TReaction = {
   };
   
   export type TPost = {
-    postId: string;
-    userId: string;
+    // postId: string;
+    userEmail: string;
     text: string;
     images?: string[];            
     reactions: TReaction[]; 

@@ -16,8 +16,8 @@ const commentSchema = new Schema({
 
 // Define the schema for the Post
 const postSchema = new Schema<TPost>({
-  postId: { type: String, required: true },
-  userId: { type: String, required: true },
+  // postId: { type: String, required: true },
+  userEmail: { type: String, required: true },
   text: { type: String, required: true },
   images: [{ type: String }],
   reactions: [reactionSchema],

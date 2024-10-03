@@ -14,10 +14,10 @@ const commentSchema = z.object({
 });
 
 // Define the schema for Post
-const postValidation = z.object({
+const createPostValidation = z.object({
   body: z.object({
-    postId: z.string().nonempty('Post ID is required'),
-    userId: z.string().nonempty('User ID is required'),
+    // postId: z.string().nonempty('Post ID is required'),
+    // userEmail: z.string().nonempty('User ID is required'),
     text: z.string().optional(),
     images: z.array(z.string()).optional(),
     reactions: z.array(reactionSchema).optional(),
@@ -25,4 +25,6 @@ const postValidation = z.object({
   })
 });
 
-export default postValidation;
+export const PostValidation = {
+  createPostValidation
+}
