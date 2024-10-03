@@ -16,5 +16,6 @@ export type TReaction = {
     images?: string[];            
     reactions: TReaction[]; 
     comments: TComment[]; 
+    isDeleted: boolean;
   };
   

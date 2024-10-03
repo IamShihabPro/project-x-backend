@@ -10,7 +10,8 @@ const router = express.Router()
 
 router.post('/tweet', auth(USER_ROLE.user, USER_ROLE.admin), validateRequest(PostValidation.createPostValidation), PostController.createPost)
 router.get('/tweet', auth(USER_ROLE.user, USER_ROLE.admin), PostController.getAllPost )
-router.get('/tweet/:id', auth(USER_ROLE.user, USER_ROLE.admin), PostController.getSinglePost )
+router.get('/tweet/:id', auth(USER_ROLE.user, USER_ROLE.admin), PostController.getSinglePost)
+router.delete('/tweet/:id', auth(USER_ROLE.user, USER_ROLE.admin), PostController.deletePost)
 
 
 

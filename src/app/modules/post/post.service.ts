@@ -39,10 +39,36 @@ const getSinglePost = async(id: string) =>{
     return result
 }
 
+const deletePost = async(id: string, userData: JwtPayload) =>{
+  const postData = await Post.findById(id)
+
+  if(postData?.userEmail === userData.email){
+    // const result = await Post.findByIdAndDelete(postData?._id)
+    const result = await Post.findByIdAndUpdate(id, {isDeleted: true}, {new: true})
+    return result
+  }else{
+    throw new AppError(httpStatus.EXPECTATION_FAILED, "This is not your post")
+  }
+}
+
+
+const updatePost = async(id: string, payload: Partial<TPost>, userData: JwtPayload)=>{
+
+  const postData = await Post.findById(id)
+
+  if(postData?.userEmail === userData.email){
+    const result = await Post.findByIdAndUpdate(id, payload, {new: true})
+    return result
+  }else{
+    throw new AppError(httpStatus.EXPECTATION_FAILED, "This is not your post")
+  }
+}
 
 
 export const PostServices = {
   createPost,
   getAllPost,
-  getSinglePost
+  getSinglePost,
+  deletePost,
+  updatePost
 }

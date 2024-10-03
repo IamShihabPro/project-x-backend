@@ -22,6 +22,7 @@ const postSchema = new Schema<TPost>({
   images: [{ type: String }],
   reactions: [reactionSchema],
   comments: [commentSchema],
+  isDeleted: { type: Boolean, default: false }
 },
 {
     timestamps: true,
